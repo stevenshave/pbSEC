@@ -3,4 +3,4 @@ Code repository for simulation of plate-based size exclusion chromatography (pbS
 
 This repository accompanies a soon to be published protocol.
 
-![pbSEC simulation](https://raw.githubusercontent.com/stevenshave/pbSEC_simulation/master/pbSEC-simulation.png "Simulation of pbSEC kinetic scheme")
+![pbSEC simulation](https://raw.githubusercontent.com/stevenshave/pbSEC_simulation/main/pbSEC-simulation.png "Simulation of pbSEC kinetic scheme")
