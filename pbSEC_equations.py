@@ -1,7 +1,10 @@
+"""
+Functions to simulate pbSEC rounds
+
+"""
+
 from mpmath import mpf, sqrt, power, mp
-
 mp.dps = 100
-
 
 def one_to_one_binding(p: float, l: float, kdpl: float):
     """Return protein-ligand complex amount as a float
