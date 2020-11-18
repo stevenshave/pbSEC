@@ -31,14 +31,14 @@ for kd_i, kd in enumerate(ligand_kd_range):
 fig, ax = plt.subplots(1, 1, figsize=(7.204724, 5.09424929292))
 
 for i in range(NUM_ROUNDS):
-    ax.plot(x_axis, protein_concs[i], label="Round " + str(i + 1))
+    ax.plot(x_axis, protein_concs[i] * 1e-6, label="Round " + str(i + 1))
 # ax.hlines(1,3,9)
 plt.legend()
-
+plt.yscale("log")
 ax.set_xticklabels(["3 (mM)", "4", "5", r"6 ($\mathrm{\mu}$M)", "7", "8", "9 (nM)"])
 # ax.set_xticks(range(XAXIS_BEGINNING, XAXIS_END+1))
 ax.set_xlim(3, 9)
-ax.set_ylim(0, 8)
+# ax.set_ylim(0, 8)
 ax.set_xlabel(r"Ligand pK$_\mathrm{D}$", fontsize=16)
 ax.set_ylabel(r"[Ligand] ($\mathrm{\mu}$M)", fontsize=16)
 ax.set_title(
