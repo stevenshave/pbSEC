@@ -2,7 +2,7 @@
 Code repository for simulation of plate-based size exclusion chromatography (pbSEC) runs. 
 
 This repository accompanies a soon to be published protocol.
-![png](pbSEC_notebook_files/pbSEC_notebook_8_0.png "Simulation of pbSEC kinetic scheme")
+![png](images/pbSEC_notebook_8_0.png "Simulation of pbSEC kinetic scheme")
 
 ## Example usage:
 Please see the included notebook pbSEC_notebook.ipynb to explore the following functionality:
@@ -134,7 +134,7 @@ plt.show()
 Output:
 
     
-![png](pbSEC_notebook_files/pbSEC_notebook_8_0.png)
+![png](images/pbSEC_notebook_8_0.png)
     
 ### Plot pbSEC rounds, recovery efficiency vs log complex
 
@@ -186,7 +186,7 @@ ax.set_title(
 plt.show()
 ```
 Output:
-![png](pbSEC_notebook_files/pbSEC_notebook_10_0.png)
+![png](images/pbSEC_notebook_10_0.png)
     
 ### Plot pbSEC rounds, pKd vs num rounds detectable for
 ```python
@@ -250,7 +250,7 @@ ax.set_title(
 plt.show()
 ```
 Output:    
-![png](pbSEC_notebook_files/pbSEC_notebook_12_0.png)
+![png](images/pbSEC_notebook_12_0.png)
     
 ### Plot pbSEC conc vs recovery vs pKD
 ```python
@@ -311,6 +311,6 @@ plt.show()
 
 ```
 Output
-![png](pbSEC_notebook_files/pbSEC_notebook_13_0.png)
+![png](images/pbSEC_notebook_13_0.png)
     
 
