@@ -4,7 +4,7 @@ Simulate iterative pbSEC runs until instrument detection limit is reached
 Perform iterative pbSEC runs using protein and ligand with known KD and iterate
 until the specified detection limit is reached.
 """
-from pbSEC_equations import pbSEC_iterate_until_undetectable
+from pbsec import pbSEC_iterate_until_undetectable
 
 l = 8
 kd = 43.5

@@ -4,7 +4,7 @@ Plot pbSEC rounds, pKd vs num rounds detectable for
 """
 
 import numpy as np
-from pbSEC_equations import pbSEC_iterate_until_undetectable
+from pbsec import pbSEC_iterate_until_undetectable
 import matplotlib.pyplot as plt
 
 XAXIS_BEGINNING = 3  # pKD of 3 is 1 mM
@@ -42,16 +42,13 @@ for recovery_efficiency_i, recovery_efficiency in enumerate(RECOVERY_EFFICIENCIE
         num_iterations_taken[recovery_efficiency_i],
         label=f"{recovery_efficiency*100:2.0f} % recovery",
     )
-# ax.hlines(1,3,9)
 plt.legend()
 
 ax.set_xticklabels(
     ["3 (mM)", " ", "4", " ", "5", " ", r"6 ($\mathrm{\mu}$M)"]
-)  # , "7", "8", "9 (nM)"])
-# ax.set_xticks(range(XAXIS_BEGINNING, XAXIS_END+1))
+)
 ax.set_xlim(XAXIS_BEGINNING, XAXIS_END)
 ax.set_ylim(0, 10)
-# plt.yscale('log')
 plt.grid(True)
 ax.set_xlabel(r"Ligand pK$_\mathrm{D}$", fontsize=16)
 ax.set_ylabel(r"Num rounds detectable (N)", fontsize=16)

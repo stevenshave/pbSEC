@@ -1,0 +1,53 @@
+[project]
+name="pbsec"
+version="1.0.0"
+description="Plate based size exclusion simulation tools"
+authors = [
+    {name = "Steven Shave"},
+]
+readme = "README.md"
+requires-python = ">=3.10"
+keywords = ["size exclusion", "Affinity screening", "High througput screening"]
+dependencies = [
+    "numpy>=1.26",
+    "mpmath>=1.3.0",
+    "matplotlib>=3.8",
+    ]
+[build-system]
+requires=[
+    "setuptools>=61.0.0",
+    ]
+build-backend="setuptools.build_meta"
+
+[tool.black]
+skip-string-normalization = true
+include = '''
+(
+    ^/tests/
+  | ^/src/
+  | ^/setup[.]py
+)
+'''
+exclude = '''
+(
+    __pycache__
+    |.*\.egg-info
+)
+'''
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.urls]
+Source = "https://github.com/stevenshave/pbSEC_simulation"
+
+[project.optional-dependencies]
+dev = [
+    'black==23.12.1',
+    'pytest==7.4.4',
+    'build==1.0.3',
+    'jupyter>=1.0.0'
+]
+
+[tool.pytest.ini_options]
+"testpaths" = "tests/test*"

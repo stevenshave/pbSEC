@@ -4,7 +4,7 @@ Plot pbSEC rounds, recovery efficiency vs log complex
 """
 
 import numpy as np
-from pbSEC_equations import pbSEC_simulate_n_rounds
+from pbsec import pbSEC_simulate_n_rounds
 import matplotlib.pyplot as plt
 
 XAXIS_BEGINNING = 0  # pKD of 3 is mM
@@ -35,13 +35,9 @@ for i in range(NUM_ROUNDS):
 ax.hlines(1e-8, 0, 1)
 plt.legend()
 plt.yscale("log")
-# ax.set_xticklabels(
-#     ["3 (mM)", "4", "5", r"6 ($\mathrm{\mu}$M)", "7", "8", "9 (nM)"])
-# ax.set_xticks(range(XAXIS_BEGINNING, XAXIS_END+1))
 ax.set_xlim(0, 100)
 ax.set_ylim(1e-9, 1e-5)
 plt.grid(True)
-# L,B,R,T
 ax.set_xlabel(r"Recovery efficiency (%)", fontsize=14)
 ax.set_ylabel(r"[Complex] (M)", fontsize=14)
 ax.set_title(

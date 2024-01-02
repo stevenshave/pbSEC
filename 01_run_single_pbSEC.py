@@ -3,7 +3,7 @@ Simulate a single pbSEC run
 
 Perform a singular pbSEC run using protein and ligand with known KD
 """
-from pbSEC_equations import pbSEC, one_to_one_binding
+from pbsec import pbSEC, one_to_one_binding
 
 p = 10
 l = 8

@@ -2,6 +2,13 @@
 Functions to simulate pbSEC rounds
 
 """
+__all__ = [
+    'one_to_one_binding',
+    'one_to_one_binding_mpf',
+    'pbSEC',
+    'pbSEC_simulate_n_rounds',
+    'pbSEC_iterate_until_undetectable',
+]
 
 from mpmath import mpf, sqrt, power, mp
 mp.dps = 100
@@ -55,7 +62,7 @@ def pbSEC(p: float, l: float, kdpl: float, recovery_efficiency: float = 1.0):
 
 
 def pbSEC_simulate_n_rounds(
-    p: float, l: float, kdpl: float, n: int, recovery_efficiency: float = 1.0
+    p: float, l: float, kdpl: float, num_iterations: int, recovery_efficiency: float = 1.0
 ):
     """Calculate the amount protein-ligand complex recovered in iterative pbSEC runs and return as a list of floats
 
@@ -63,7 +70,7 @@ def pbSEC_simulate_n_rounds(
         p (float): Protein concentration
         l (float): Ligand concentration
         kdpl (float): Protein-ligand dissociation constant (KD)
-        n (int): Number of pbSEC rounds
+        num_iterations (int): Number of pbSEC rounds
         recovery_efficiency (float, optional): Fraction protein recovered on each iteration. Defaults to 1.0.
     Returns:
         list(float): List of complex amounts at each iteration
@@ -72,7 +79,7 @@ def pbSEC_simulate_n_rounds(
     p, l, kdpl = mpf(p), mpf(l), mpf(kdpl)
     round_count = 0
     complex_concentrations = []
-    for _ in range(n):
+    for _ in range(num_iterations):
         l = one_to_one_binding_mpf(p, l, kdpl) * recovery_efficiency
         p = p * recovery_efficiency
         complex_concentrations.append(float(l))

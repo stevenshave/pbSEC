@@ -4,7 +4,7 @@ Plot pbSEC rounds, pKd vs concentration
 """
 
 import numpy as np
-from pbSEC_equations import pbSEC_simulate_n_rounds
+from pbsec import pbSEC_simulate_n_rounds
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
@@ -49,11 +49,8 @@ for round in reversed(range(NUM_ROUNDS)):
             Z[j][i] = protein_concs[round, j, i]
     ax.plot_surface(X, Y, Z, label="Round " + str(round + 1))
 
-# ax.hlines(1,3,9)
 ax.set_xticklabels(["3 (mM)", "4", "5", r"6 ($\mathrm{\mu}$M)", "7", "8", "9 (nM)"])
-# ax.set_xticks(range(XAXIS_BEGINNING, XAXIS_END+1))
 ax.set_xlim(3, 9)
-# ax.set_ylim(0, 8)
 ax.set_xlabel(r"Ligand pK$_\mathrm{D}$", fontsize=16)
 ax.set_ylabel(r"Recovery efficiency (%))", fontsize=16)
 ax.set_zlabel(r"[Ligand] ($\mathrm{\mu}$M)", fontsize=16)
