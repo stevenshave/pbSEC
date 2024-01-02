@@ -2,13 +2,10 @@
 Code repository for simulation of plate-based size exclusion chromatography (pbSEC) runs. 
 
 This repository accompanies a soon to be published protocol.
-
-![pbSEC simulation](https://raw.githubusercontent.com/stevenshave/pbSEC_simulation/main/pbSEC-simulation.png "Simulation of pbSEC kinetic scheme")
-
+![png](pbSEC_notebook_files/pbSEC_notebook_8_0.png "Simulation of pbSEC kinetic scheme")
 
 ## Example usage:
 Please see the included notebook pbSEC_notebook.ipynb to explore the following functionality:
-
 
 ### Simulation of a single pbSEC run
 ```python
