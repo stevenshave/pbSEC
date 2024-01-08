@@ -2,9 +2,9 @@
 Functions to simulate pbSEC rounds
 
 """
+
 __all__ = [
     'one_to_one_binding',
-    'one_to_one_binding_mpf',
     'pbSEC',
     'pbSEC_simulate_n_rounds',
     'pbSEC_iterate_until_undetectable',
@@ -13,103 +13,146 @@ __all__ = [
 from mpmath import mpf, sqrt, power, mp
 mp.dps = 100
 
-def one_to_one_binding(p: float, l: float, kdpl: float):
-    """Return protein-ligand complex amount as a float
+def one_to_one_binding(p0: float, l0: float, kdpl: float)->float:
+    """Get protein-ligand complex concentration as a float
 
-    Args:
-        p (float): Protein concentration
-        l (float): Ligand concentration
-        kdpl (float): Protein-ligand KD
+    Parameters
+    ----------
+    p0 : float
+        Initial free protein concentration
+    l0 : float
+        Initial free ligand concentration
+    kdpl : float
+        Protein ligand affinity expressed as a dissociation constant (KD)
 
-    Returns:
-        float: Complex concentration
-    """
-    p = mpf(p)
-    l = mpf(l)
+    Returns
+    -------
+    float
+        Protein-ligand complex concentration
+    """    
+    p0 = mpf(p0)
+    l0 = mpf(l0)
     kdpl = mpf(kdpl)
-    return float((p + kdpl + l - sqrt(-4 * p * l + power(p + kdpl + l, 2))) / 2.0)
+    return float((p0 + kdpl + l0 - sqrt(-4 * p0 * l0 + power(p0 + kdpl + l0, 2))) / 2.0)
 
 
-def one_to_one_binding_mpf(p: mpf, l: mpf, kdpl: mpf):
-    """Return protein-ligand complex amount as an mpf
+def _one_to_one_binding_mpf(p0: mpf, l0: mpf, kdpl: mpf)->mpf:
+    """Get protein-ligand complex concentration as a mpmath high precision float
 
-    Args:
-        p (mpf): Protein concentration
-        l (mpf): Ligand concentration
-        kdpl (mpf): Protein-ligand KD
+    Parameters
+    ----------
+    p0 : float
+        Initial free protein concentration
+    l0 : float
+        Initial free ligand concentration
+    kdpl : float
+        Protein ligand affinity expressed as a dissociation constant (KD)
 
-    Returns:
-        mpf: Complex concentration
+    Returns
+    -------
+    mpmath.mpf
+        Protein-ligand complex concentration
     """
-    return (p + kdpl + l - sqrt(-4 * p * l + power(p + kdpl + l, 2))) / 2.0
+    return (p0 + kdpl + l0 - sqrt(-4 * p0 * l0 + power(p0 + kdpl + l0, 2))) / 2.0
 
 
-def pbSEC(p: float, l: float, kdpl: float, recovery_efficiency: float = 1.0):
-    """Calculate the amount protein-ligand complex recovered in a pbSEC run
+def pbSEC(p0: float, l0: float, kdpl: float, recovery_efficiency: float = 1.0)->float:
+    """Calculate complex concentration recovered recovered from a pbSEC run
 
-    Args:
-        p (float): Protein concentration
-        l (float): Ligand concentration
-        kdpl (float): Protein-ligand dissociation constant (KD)
-        recovery_efficiency (float, optional): Fraction protein recovered on each iteration. Defaults to 1.0.
-    Returns:
-        float: amount complex
+    Parameters
+    ----------
+    p0 : float
+        Initial free protein concentration
+    l0 : float
+        Initial free ligand concentration
+    kdpl : float
+        Protein ligand affinity expressed as a dissociation constant (KD)
+    recovery_efficiency : float, optional
+        Fraction of protein complex recovered after each pbSEC iteration. 100 %
+        recovery should be expressed as 1.0, similarly 80 % recovery as 0.8. By
+        default 1.0
 
-    """
-    p, l, kdpl = mpf(p), mpf(l), mpf(kdpl)
-    pl_complex = one_to_one_binding_mpf(p, l, kdpl) * recovery_efficiency
+    Returns
+    -------
+    float
+        Concentration of recovered protein-ligand complex
+    """    
+    p0, l0, kdpl = mpf(p0), mpf(l0), mpf(kdpl)
+    pl_complex = _one_to_one_binding_mpf(p0, l0, kdpl) * recovery_efficiency
     return float(pl_complex)
 
 
 def pbSEC_simulate_n_rounds(
-    p: float, l: float, kdpl: float, num_iterations: int, recovery_efficiency: float = 1.0
-):
-    """Calculate the amount protein-ligand complex recovered in iterative pbSEC runs and return as a list of floats
+    p0: float, l0: float, kdpl: float, num_iterations: int, recovery_efficiency: float = 1.0
+)->float:
+    """Calc complex concentration recovered after iterative pbSEC runs
 
-    Args:
-        p (float): Protein concentration
-        l (float): Ligand concentration
-        kdpl (float): Protein-ligand dissociation constant (KD)
-        num_iterations (int): Number of pbSEC rounds
-        recovery_efficiency (float, optional): Fraction protein recovered on each iteration. Defaults to 1.0.
-    Returns:
-        list(float): List of complex amounts at each iteration
+    Parameters
+    ----------
+    p0 : float
+        Initial free protein concentration
+    l0 : float
+        Initial free ligand concentration
+    kdpl : float
+        Protein ligand affinity expressed as a dissociation constant (KD)
+    num_iterations : int
+        _description_
+    recovery_efficiency : float, optional
+        Fraction of protein complex recovered after each pbSEC iteration. 100 %
+        recovery should be expressed as 1.0, similarly 80 % recovery as 0.8. By
+        default 1.0
 
-    """
-    p, l, kdpl = mpf(p), mpf(l), mpf(kdpl)
+    Returns
+    -------
+    float
+        Concentration of recovered protein-ligand complex after iterative rounds
+    """    
+
+    p0, l0, kdpl = mpf(p0), mpf(l0), mpf(kdpl)
     round_count = 0
     complex_concentrations = []
     for _ in range(num_iterations):
-        l = one_to_one_binding_mpf(p, l, kdpl) * recovery_efficiency
-        p = p * recovery_efficiency
-        complex_concentrations.append(float(l))
+        l0 = _one_to_one_binding_mpf(p0, l0, kdpl) * recovery_efficiency
+        p0 = p0 * recovery_efficiency
+        complex_concentrations.append(float(l0))
     return complex_concentrations
 
 
 def pbSEC_iterate_until_undetectable(
-    p: float,
-    l: float,
+    p0: float,
+    l0: float,
     kdpl: float,
     l_detection_limit: float,
     recovery_efficiency: float = 1.0,
 ):
-    """Calculate amount returned in interative pbSEC rounds until a certain detection limit is reached.
+    """Iterate pbSEC rounds until ligand is undetectable
 
-    Args:
-        p (float): Protein concentration.
-        l (float): Ligand concentration.
-        kdpl (float): Protein-ligand dissociation constant (KD).
-        l_detection_limit (float): Ligand detection limit.
-        recovery_efficiency (float, optional): Fraction protein recovered on each iteration. Defaults to 1.0.
-    Returns:
-        list(float): List of complex amounts at each iteration until undetectable.
+    Parameters
+    ----------
+    p0 : float
+        Initial free protein concentration
+    l0 : float
+        Initial free ligand concentration
+    kdpl : float
+        Protein ligand affinity expressed as a dissociation constant (KD)
+    l_detection_limit : float
+        ligand detection limit
+    recovery_efficiency : float, optional
+        Fraction of protein complex recovered after each pbSEC iteration. 100 %
+        recovery should be expressed as 1.0, similarly 80 % recovery as 0.8. By
+        default 1.0
 
-    """
-    p, l, kdpl = mpf(p), mpf(l), mpf(kdpl)
+    Returns
+    -------
+    List[float, ...]
+        List containing the complex concentration recovered at each pbSEC
+        iteration until undetectable
+    """    
+    p0, l0, kdpl = mpf(p0), mpf(l0), mpf(kdpl)
     round_count = 0
     complex_concentrations = []
-    while l >= l_detection_limit:
-        l = one_to_one_binding_mpf(p, l, kdpl) * recovery_efficiency
-        p = p * recovery_efficiency
-        complex_concentrations.append(float(l))
+    while l0 >= l_detection_limit:
+        l0 = _one_to_one_binding_mpf(p0, l0, kdpl) * recovery_efficiency
+        p0 = p0 * recovery_efficiency
+        complex_concentrations.append(float(l0))
     return complex_concentrations[:-1]
