@@ -58,6 +58,35 @@ def _one_to_one_binding_mpf(p0: mpf, l0: mpf, kdpl: mpf) -> mpf:
     return (p0 + kdpl + l0 - sqrt(-4 * p0 * l0 + power(p0 + kdpl + l0, 2))) / 2.0
 
 
+def recovered_amount_to_KD(p0: float, l0: float, l: float, recovery_efficiency:float=1.0):
+    """Get protein-ligand complex concentration as a float
+
+    Parameters
+    ----------
+    p0 : float
+        Initial free protein concentration
+    l0 : float
+        Initial free ligand concentration
+    l : float
+        Concentration of recovered compound (or protein-ligand compex)after a
+        pbSEC run
+    recovery_efficiency : Fraction of protein complex recovered after each pbSEC
+        iteration. 100 % recovery should be expressed as 1.0, similarly 80 %
+        recovery as 0.8. If you know that only 80 % protein (and therefore
+        compound) is recovered, then l is scaled such that the KD calculation is
+        performed with 20 % more ligand. By default 1.0
+
+    Returns
+    -------
+    float
+        Protein-ligand complex concentration
+    """
+    p0 = mpf(p0)
+    l0 = mpf(l0)
+    l = mpf(l)
+    return float((-p0*(l/recovery_efficiency)+(l/recovery_efficiency)*(l/recovery_efficiency)+p0*l0-(l/recovery_efficiency)*l0)/(l/recovery_efficiency))
+
+
 def pbSEC(p0: float, l0: float, kdpl: float, recovery_efficiency: float = 1.0) -> float:
     """Calculate complex concentration recovered recovered from a pbSEC run
 
