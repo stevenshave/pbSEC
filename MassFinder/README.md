@@ -32,7 +32,7 @@ The MassFinder pipeline requires some configuration before being run by setting 
         - (Assuming compilation for Windows)
        
 # Usage
-Upon execution of massfinder.py, the user will be asked to specify a platemap defining which masses are to be looked for in each well. An extract from a platemap CSV file (comma separated, no header) follows:
+Upon execution of massfinder.py, the user will be asked to specify a pool definition file defining which masses are to be looked for in each well. An extract from a definition file in the CSV file format (comma separated, no header) follows:
 
 |      |        |
 |------|--------|
@@ -48,9 +48,9 @@ Upon execution of massfinder.py, the user will be asked to specify a platemap de
 
 Whilst the above names pools pool01 and pool02, any unique identifier may be used which matches mass spec output for that pool/well.
 
-With the platemap and data directories identified, the MassFinder program will begin calling mscat.exe to decode vendor mass spec data files and pass output to Picker.exe.  This is a long process and best left running overnight.  The time consuming part of this is conversion from the vendor’s proprietary mass spec data format to something easily readable.  This conversion is achieved using the ProteoWizzard tool mscat.exe, and as such, there is nothing that we can do to speed the process up.
+With the pool definitions file and data directories identified, the MassFinder program will begin calling mscat.exe to decode vendor mass spec data files and pass output to Picker.exe.  This is a long process and best left running overnight.  The time consuming part of this is conversion from the vendor’s proprietary mass spec data format to something easily readable.  This conversion is achieved using the ProteoWizzard tool mscat.exe, and as such, there is nothing that we can do to speed the process up.
 
-Results for each well (ion counts for each mass) are written to a results CSV file taking the form “results-[platemapname].csv”, where [platemapname] is the name of the platemap.  This file will be written to the data directory where the mass spec data is located. 
+Results for each well (ion counts for each mass) are written to a results CSV file taking the form “results-[poolname].csv”, where [poolname] is the name of the pool.  This file will be written to the data directory where the mass spec data is located. 
 
 Results may then be inspected with excel, or similar spreadsheet analysis software, sorting each pool by ion counts, or the overall plate by ion count to see the priority compounds.  Once compounds are prioritised by sorting by overall ion count, a manual check must be undertaken, looking at the columns following “IonCount”.  These additional columns give the ion count per minute (ignoring, as the total count does, the first 2 minutes of the run).  If a compound comes out consistently over the course of the run, it should be deprioritised as it is not a true hit – simply going through the column on its own and not eluting with the protein (indicating binding).
  
